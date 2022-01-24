@@ -43,7 +43,7 @@ namespace DSPAllPlanetInfo
 
                 codes[30].opcode = OpCodes.Nop;
                 codes[31].opcode = OpCodes.Nop;
-                codes[32].opcode = OpCodes.Nop;
+                codes[32].opcode = OpCodes.Nop; 
                 codes[33].opcode = OpCodes.Nop;
                 codes[34].opcode = OpCodes.Nop;
                 codes[35].opcode = OpCodes.Ldc_I4_1;
@@ -74,19 +74,18 @@ namespace DSPAllPlanetInfo
                 if (!__instance.star.loaded)
                 {
                     //PlanetModelingManager.RequestLoadStar(__instance.star);
-                    __instance.star.Load();
+                    //__instance.star.Load();
                     //惑星情報を作成
                     //LogManager.Logger.LogInfo("start Creating Planets");
                     for (int i = 0; i < __instance.star.planetCount; i++)
                     {
                         PlanetData planetData = __instance.star.planets[i];
+                        //PlanetCreater.Create(planetData);
                         IEnumerator coroutine = PlanetCreater.Create(planetData);
                         coroutine.MoveNext();
                     }
                     //LogManager.Logger.LogInfo("finished Creating Planets");
                 }
-                else
-                {
                     //double magnitude = (__instance.star.uPosition - GameMain.mainPlayer.uPosition).magnitude;
                     //int num = (__instance.star == GameMain.localStar) ? 2 : ((magnitude < 14400000.0) ? 3 : 4);
                     //bool flag = GameMain.history.universeObserveLevel >= num;
@@ -167,13 +166,12 @@ namespace DSPAllPlanetInfo
                     }
                 __instance.SetResCount(num3);
                 __instance.RefreshDynamicProperties();
-                }
             }
             return false;
         }
 
         //星系情報表示をフック
-        //[HarmonyPrefix, HarmonyPatch(typeof(UIStarDetail), "RefreshDynamicProperties")]
+        [HarmonyPrefix, HarmonyPatch(typeof(UIStarDetail), "RefreshDynamicProperties")]
         public static bool UIStarDetail_RefreshDynamicProperties_Prefix(UIStarDetail __instance)
         {
             LogManager.Logger.LogInfo("UIStarDetail_RefreshDynamicProperties_Prefix");
@@ -181,6 +179,10 @@ namespace DSPAllPlanetInfo
             bool isInfiniteResource = GameMain.data.gameDesc.isInfiniteResource;
             if (__instance.star != null)
             {
+                //if (!__instance.star.loaded)
+                //{
+                //    return false;
+                //}
                 double magnitude = (__instance.star.uPosition - GameMain.mainPlayer.uPosition).magnitude;
                 int num = (__instance.star == GameMain.localStar) ? 2 : ((magnitude < 14400000.0) ? 3 : 4);
                 bool flag = true; //GameMain.history.universeObserveLevel >= num;

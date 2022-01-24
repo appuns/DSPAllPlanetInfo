@@ -28,7 +28,9 @@ namespace DSPAllPlanetInfo
     internal class PlanetCreater
     {
         public static IEnumerator Create(PlanetData　planetData)
-        {
+
+		//public static void Create(PlanetData planetData)
+		{
 			try
 			{
 				PlanetAlgorithm planetAlgorithm = PlanetModelingManager.Algorithm(planetData);
@@ -64,10 +66,13 @@ namespace DSPAllPlanetInfo
 						}
 						num4 = highStopwatch.duration;
 					}
-					else if (planetData.galaxy.birthPlanetId == planetData.id)
+					if (planetData.landPercentDirty)
 					{
-						planetData.GenBirthPoints();
+						PlanetAlgorithm.CalcLandPercent(planetData);
+						planetData.landPercentDirty = false;
 					}
+					planetData.loaded = true;
+
 					if (PlanetModelingManager.planetComputeThreadLogs != null)
 					{
 						List<string> obj4 = PlanetModelingManager.planetComputeThreadLogs;
@@ -96,7 +101,7 @@ namespace DSPAllPlanetInfo
 				}
 			}
 			yield return null;
-        }
+		}
 
 
 
