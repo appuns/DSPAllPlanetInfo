@@ -27,9 +27,9 @@ namespace DSPAllPlanetInfo
 {
     internal class PlanetCreater
     {
-        public static IEnumerator Create(PlanetData　planetData)
+        //public static IEnumerator Create(PlanetData　planetData)
 
-		//public static void Create(PlanetData planetData)
+		public static void Create(PlanetData planetData)
 		{
 			try
 			{
@@ -100,7 +100,7 @@ namespace DSPAllPlanetInfo
 					}
 				}
 			}
-			yield return null;
+			//yield return null;
 		}
 
 

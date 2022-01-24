@@ -29,7 +29,7 @@ using System.Security.Permissions;
 namespace DSPAllPlanetInfo
 {
 
-    [BepInPlugin("Appun.DSP.plugin.AllPlanetInfo", "DSPAllPlanetInfo", "1.1.2")]
+    [BepInPlugin("Appun.DSP.plugin.AllPlanetInfo", "DSPAllPlanetInfo", "1.1.3")]
     [BepInProcess("DSPGAME.exe")]
 
 
