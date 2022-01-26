@@ -100,7 +100,6 @@ namespace DSPAllPlanetInfo
 					}
 				}
 			}
-			//yield return null;
 		}
 
 

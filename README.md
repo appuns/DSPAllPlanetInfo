@@ -32,6 +32,8 @@ If you have any problems or suggestions, please contact DISCORD MSP Modding serv
 不具合、改善案などありましたら、DISCORD「DysonSphereProgram_Jp」サーバー**Appun#8284**までお願いします。<BR>
 <BR>
 ## Change Log　更新履歴
+### v1.1.3
+- Fixed an issue that an error occurs when clicking a star. 星をクリックするとエラーが発生する問題を修正しました。
 ### v1.1.2
 - Fixed a bug that the Universe exploration level become zero.宇宙探査レベルがゼロになるバグを修正しました。
 ### v1.1.1

@@ -48,7 +48,7 @@ namespace DSPAllPlanetInfo
         public static GameObject[] ItemLogic = new GameObject[108];
         public static GameObject[] Line = new GameObject[50];
         public static GameObject WindowTitle;
-        public static GameObject page;
+        //public static GameObject page;
         public static GameObject previousButton;
         public static GameObject nextButton;
 
@@ -79,11 +79,11 @@ namespace DSPAllPlanetInfo
             LogManager.Logger.LogInfo("情報表示用のウインドウを作成");
 
 
-            //ボタンの追加
+            //next&previousボタンの追加
             previousButton = Instantiate(GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Assembler Window/produce/copy-button"), infoWindow.transform) as GameObject;
             previousButton.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 20);
             previousButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-            previousButton.transform.localPosition = new Vector3(-125, -40, 0);
+            previousButton.transform.localPosition = new Vector3(-135, -40, 0);
             previousButton.transform.Find("Text").GetComponent<Text>().text = "Previous Page".Translate();
             Destroy(previousButton.transform.Find("Text").GetComponent<Localizer>());
             Destroy(previousButton.GetComponent<UIButton>());
@@ -92,7 +92,7 @@ namespace DSPAllPlanetInfo
             previousButtonButton = previousButton.GetComponent<Button>();
 
             nextButton = Instantiate(previousButton.gameObject, infoWindow.transform) as GameObject;
-            nextButton.transform.localPosition = new Vector3(-125, 40 - UIheight, 0);
+            nextButton.transform.localPosition = new Vector3(-15, -40, 0);
             nextButton.transform.Find("Text").GetComponent<Text>().text = "Next Page".Translate();
             nextButton.name = "nextButton";
             nextButton.SetActive(true);
@@ -190,7 +190,7 @@ namespace DSPAllPlanetInfo
         //ボタンイベント
         public static void OnClickPreviousButton()
         {
-            Main.pageNo--;
+            InfoCreater.pageNo--;
             //LogManager.Logger.LogInfo("pageNo--");
             UIRoot.instance.uiGame.planetDetail.RefreshDynamicProperties();
             //needRefresh = true;
@@ -198,9 +198,9 @@ namespace DSPAllPlanetInfo
 
         public static void OnClickNextButton()
         {
-            Main.pageNo++;
+            InfoCreater.pageNo++;
             //LogManager.Logger.LogInfo("pageNo++");
-            Main.startStationNo[Main.pageNo] = Main.lastStationNo;
+            InfoCreater.startStationNo[InfoCreater.pageNo] = InfoCreater.lastStationNo;
             //LogManager.Logger.LogInfo("lastStationNo = " +lastStationNo);
             UIRoot.instance.uiGame.planetDetail.RefreshDynamicProperties();
             //needRefresh = true;
