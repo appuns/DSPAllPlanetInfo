@@ -39,7 +39,6 @@ namespace DSPAllPlanetInfo
         public static GameObject infoWindow;
         public static RectTransform rectInfoWindow;
 
-
         //public static GameObject planetdetailwindow;
 
         public static GameObject[] ItemName = new GameObject[108];
@@ -68,15 +67,15 @@ namespace DSPAllPlanetInfo
             infoWindow = Instantiate(planetdetailwindow) as GameObject;
             infoWindow.name = "infoWindow";
             infoWindow.transform.SetParent(planetdetailwindow.transform.parent, true);
-            infoWindow.transform.localPosition = new Vector3(260 - UIwidth, 150, 0);
+            infoWindow.transform.localPosition = new Vector3(260 - UIwidth, 250, 0);
             infoWindow.transform.localScale = planetdetailwindow.transform.localScale;
 
-            rectInfoWindow = infoWindow.GetComponent<RectTransform>();
-            rectInfoWindow.sizeDelta = new Vector2(rectInfoWindow.sizeDelta.x, UIheight);
+            infoWindow.GetComponent<RectTransform>().sizeDelta = new Vector2(infoWindow.GetComponent<RectTransform>().sizeDelta.x, UIheight);
 
             Destroy(infoWindow.transform.Find("res-group/res-entry/icon").GetComponent<UIButton>());
+            Destroy(infoWindow.GetComponent<UIPlanetDetail>());
 
-            LogManager.Logger.LogInfo("情報表示用のウインドウを作成");
+            //LogManager.Logger.LogInfo("情報表示用のウインドウを作成");
 
 
             //next&previousボタンの追加
@@ -99,7 +98,7 @@ namespace DSPAllPlanetInfo
             nextButtonButton = nextButton.GetComponent<Button>();
 
 
-            LogManager.Logger.LogInfo("ボタンの追加");
+            //LogManager.Logger.LogInfo("ボタンの追加");
 
             //ウインドウのタイトル追加
             WindowTitle = Instantiate(infoWindow.transform.Find("type-text").gameObject, infoWindow.transform) as GameObject;
@@ -110,7 +109,7 @@ namespace DSPAllPlanetInfo
             //WindowTitle.GetComponent<Text>().fontSize = 23;
             WindowTitle.SetActive(true);
 
-            LogManager.Logger.LogInfo("ウインドウのタイトル追加");
+            //LogManager.Logger.LogInfo("ウインドウのタイトル追加");
 
             //ページ
             //page = Instantiate(infoWindow.transform.Find("type-text").gameObject, infoWindow.transform) as GameObject;
@@ -143,9 +142,9 @@ namespace DSPAllPlanetInfo
 
 
                 //アイテム数
-                ItemCount[j] = Instantiate(infoWindow.transform.Find("type-text").gameObject, infoWindow.transform) as GameObject;
+                ItemCount[j] = Instantiate(infoWindow.transform.Find("res-group/res-entry/value-text").gameObject, infoWindow.transform) as GameObject;
                 ItemCount[j].name = "ItemCount " + j;
-                ItemCount[j].transform.localPosition = new Vector3(-80, (float)(-60 - j * 20), 0);
+                ItemCount[j].transform.localPosition = new Vector3(-35, (float)(-60 - j * 20), 0);
                 ItemCount[j].GetComponent<RectTransform>().sizeDelta = new Vector2(40, 20);
                 //ItemCount[j].GetComponent<Text>().text = "";
                 ItemCount[j].GetComponent<Text>().alignment = TextAnchor.MiddleRight;
@@ -169,7 +168,7 @@ namespace DSPAllPlanetInfo
 
 
             }
-            LogManager.Logger.LogInfo("表示行を作成");
+            //LogManager.Logger.LogInfo("表示行を作成");
 
 
             //不要なオブジェクトの削除

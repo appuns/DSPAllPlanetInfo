@@ -32,6 +32,11 @@ If you have any problems or suggestions, please contact DISCORD MSP Modding serv
 不具合、改善案などありましたら、DISCORD「DysonSphereProgram_Jp」サーバー**Appun#8284**までお願いします。<BR>
 <BR>
 ## Change Log　更新履歴
+### v1.1.5
+- Supported the game Version 0.9.26.12900. ゲームバージョン0.9.26.12900に対応しました。
+- Changed the number font to same as the planetary/stellar information panel. 数字のフォントを惑星/恒星の情報パネルと同じものに変更しました。
+### v1.1.4
+- Fixed an issue that an error occurs when warp out. ワープアウトした際にエラーが発生する問題を修正しました。
 ### v1.1.3
 - Fixed an issue that an error occurs when clicking a star. 星をクリックするとエラーが発生する問題を修正しました。
 ### v1.1.2

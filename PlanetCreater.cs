@@ -27,80 +27,90 @@ namespace DSPAllPlanetInfo
 {
     internal class PlanetCreater
     {
-        //public static IEnumerator Create(PlanetData　planetData)
+        //public static IEnumerator Create(PlanetData　planetData) 
 
-		public static void Create(PlanetData planetData)
-		{
-			try
-			{
-				PlanetAlgorithm planetAlgorithm = PlanetModelingManager.Algorithm(planetData);
-				if (planetAlgorithm != null)
-				{
-					HighStopwatch highStopwatch = new HighStopwatch();
-					double num2 = 0.0;
-					double num3 = 0.0;
-					double num4 = 0.0;
-					if (planetData.data == null)
-					{
-						highStopwatch.Begin();
-						planetData.data = new PlanetRawData(planetData.precision);
-						planetData.modData = planetData.data.InitModData(planetData.modData);
-						planetData.data.CalcVerts();
-						planetData.aux = new PlanetAuxData(planetData);
-						planetAlgorithm.GenerateTerrain(planetData.mod_x, planetData.mod_y);
-						planetAlgorithm.CalcWaterPercent();
-						num2 = highStopwatch.duration;
-					}
-					if (planetData.factory == null)
-					{
-						highStopwatch.Begin();
-						if (planetData.type != EPlanetType.Gas)
-						{
-							planetAlgorithm.GenerateVegetables();
-						}
-						num3 = highStopwatch.duration;
-						highStopwatch.Begin();
-						if (planetData.type != EPlanetType.Gas)
-						{
-							planetAlgorithm.GenerateVeins(false);
-						}
-						num4 = highStopwatch.duration;
-					}
-					if (planetData.landPercentDirty)
-					{
-						PlanetAlgorithm.CalcLandPercent(planetData);
-						planetData.landPercentDirty = false;
-					}
-					planetData.loaded = true;
+        public static void Create(PlanetData planetData)
+        {
+            try
+            {
+                PlanetAlgorithm planetAlgorithm = PlanetModelingManager.Algorithm(planetData);
+                if (planetAlgorithm != null)
+                {
+                    HighStopwatch highStopwatch = new HighStopwatch();
+                    double num2 = 0.0;
+                    double num3 = 0.0;
+                    double num4 = 0.0;
+                    if (planetData.data == null)
+                    {
+                        highStopwatch.Begin();
+                        planetData.data = new PlanetRawData(planetData.precision);
+                        planetData.modData = planetData.data.InitModData(planetData.modData);
+                        planetData.data.CalcVerts();
+                        planetData.aux = new PlanetAuxData(planetData);
+                        planetAlgorithm.GenerateTerrain(planetData.mod_x, planetData.mod_y);
+                        planetAlgorithm.CalcWaterPercent();
+                        num2 = highStopwatch.duration;
+                    }
+                    if (planetData.factory == null)
+                    {
+                        highStopwatch.Begin();
+                        if (planetData.type != EPlanetType.Gas)
+                        {
+                            planetAlgorithm.GenerateVegetables();
+                        }
+                        num3 = highStopwatch.duration;
+                        highStopwatch.Begin();
+                        if (planetData.type != EPlanetType.Gas)
+                        {
+                            planetAlgorithm.GenerateVeins(false);
+                        }
+                        num4 = highStopwatch.duration;
+                    }
+                    if (planetData.landPercentDirty)
+                    {
+                        PlanetAlgorithm.CalcLandPercent(planetData);
+                        planetData.landPercentDirty = false;
+                    }
 
-					if (PlanetModelingManager.planetComputeThreadLogs != null)
-					{
-						List<string> obj4 = PlanetModelingManager.planetComputeThreadLogs;
-						lock (obj4)
-						{
-							PlanetModelingManager.planetComputeThreadLogs.Add(string.Format("{0}\r\nGenerate Terrain {1:F5} s\r\nGenerate Vegetables {2:F5} s\r\nGenerate Veins {3:F5} s\r\n", new object[]
-							{
-									planetData.displayName,
-									num2,
-									num3,
-									num4
-							}));
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				string obj5 = PlanetModelingManager.planetComputeThreadError;
-				lock (obj5)
-				{
-					if (string.IsNullOrEmpty(PlanetModelingManager.planetComputeThreadError))
-					{
-						PlanetModelingManager.planetComputeThreadError = ex.ToString();
-					}
-				}
-			}
-		}
+                    if (!Main.loadedStar.Contains(planetData.star.id))
+                    {
+                        planetData.loaded = true;
+                        //Main.loadedStar.Add(planetData.star.id);
+                        //LogManager.Logger.LogInfo("(planetData.star.id : " + planetData.star.id);
+                        //LogManager.Logger.LogInfo("(Main.loadedStar.Count : " + Main.loadedStar.Count);
+                    }
+
+
+
+
+                    if (PlanetModelingManager.planetComputeThreadLogs != null)
+                    {
+                        List<string> obj4 = PlanetModelingManager.planetComputeThreadLogs;
+                        lock (obj4)
+                        {
+                            PlanetModelingManager.planetComputeThreadLogs.Add(string.Format("{0}\r\nGenerate Terrain {1:F5} s\r\nGenerate Vegetables {2:F5} s\r\nGenerate Veins {3:F5} s\r\n", new object[]
+                            {
+                                    planetData.displayName,
+                                    num2,
+                                    num3,
+                                    num4
+                            }));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string obj5 = PlanetModelingManager.planetComputeThreadError;
+                lock (obj5)
+                {
+                    if (string.IsNullOrEmpty(PlanetModelingManager.planetComputeThreadError))
+                    {
+                        PlanetModelingManager.planetComputeThreadError = ex.ToString();
+                    }
+                }
+            }
+        }
 
 
 

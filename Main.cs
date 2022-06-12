@@ -29,7 +29,7 @@ using System.Security.Permissions;
 namespace DSPAllPlanetInfo
 {
 
-    [BepInPlugin("Appun.DSP.plugin.AllPlanetInfo", "DSPAllPlanetInfo", "1.1.3")]
+    [BepInPlugin("Appun.DSP.plugin.AllPlanetInfo", "DSPAllPlanetInfo", "1.1.5")]
     [BepInProcess("DSPGAME.exe")]
 
 
@@ -57,7 +57,7 @@ namespace DSPAllPlanetInfo
         public static int fontSize = 20;
         public static int fixedHeight = 30;
 
-
+        public static List<int> loadedStar = new List<int>();
 
 
         public static bool needRefresh = false;

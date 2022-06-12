@@ -45,7 +45,7 @@ namespace DSPAllPlanetInfo
                         new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_magnitude"),
                         new CodeMatch(OpCodes.Stloc_2),
                          new CodeMatch(OpCodes.Ldarg_0)).
-                         //new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_star")).
+                    //new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_star")).
                     RemoveInstructions(19).
                     InsertAndAdvance(new CodeInstruction(OpCodes.Ldc_I4_1));
                 return matcher.InstructionEnumeration();
@@ -73,7 +73,7 @@ namespace DSPAllPlanetInfo
                         new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_magnitude"),
                         new CodeMatch(OpCodes.Stloc_1),
                          new CodeMatch(OpCodes.Ldarg_0)).
-                         //new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_star")).
+                    //new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_star")).
                     RemoveInstructions(19).
                     InsertAndAdvance(new CodeInstruction(OpCodes.Ldc_I4_1));
                 return matcher.InstructionEnumeration();
@@ -160,6 +160,47 @@ namespace DSPAllPlanetInfo
             }
         }
 
+        //星系に到着したとき、loadをチェック
+        [HarmonyPrefix, HarmonyPatch(typeof(GameData), "ArriveStar")]
+        public static bool UIStarDetail_ArriveStar_Prefix(GameData __instance, StarData star)
+        {
+            if (star == __instance.localStar)
+            {
+                return false;
+            }
+            if (__instance.localStar != null)
+            {
+                __instance.LeaveStar();
+            }
+            if (star != null)
+            {
+                __instance.localStar = star;
+
+                if (!star.loaded && GameMain.isRunning)
+                {
+                    star.Load();
+                }
+                else if (!Main.loadedStar.Contains(star.id) && star.loaded && GameMain.isRunning)
+                {
+                    Main.loadedStar.Add(star.id);
+                    //LogManager.Logger.LogInfo("(planetData.star.id : " + star.id);
+                    //LogManager.Logger.LogInfo("(Main.loadedStar.Count : " + Main.loadedStar.Count);
+
+
+                    for (int i = 0; i < star.planetCount; i++)
+                    {
+                        PlanetData planetData = star.planets[i];
+                        planetData.loaded = false;
+                    }
+                    star.Load();
+
+                }
+
+
+            }
+
+            return false;
+        }
 
         //星系情報が作成されていないときは作成
         [HarmonyPrefix, HarmonyPatch(typeof(UIStarDetail), "OnStarDataSet")]
@@ -167,7 +208,7 @@ namespace DSPAllPlanetInfo
         {
             if (__instance.star != null)
             {
-                if (!__instance.star.loaded)
+                if (!Main.loadedStar.Contains(__instance.star.id) && !__instance.star.loaded)
                 {
                     //惑星情報を作成
                     for (int i = 0; i < __instance.star.planetCount; i++)
@@ -186,8 +227,9 @@ namespace DSPAllPlanetInfo
         {
             if (__instance.star != null)
             {
-                if (!__instance.star.loaded)
+                if (!Main.loadedStar.Contains(__instance.star.id) && !__instance.star.loaded)
                 {
+
                     return false;
                 }
             }
@@ -196,7 +238,7 @@ namespace DSPAllPlanetInfo
 
 
         //追加の惑星情報を表示
-        [HarmonyPostfix,HarmonyPatch(typeof(UIPlanetDetail), "RefreshDynamicProperties")]
+        [HarmonyPostfix, HarmonyPatch(typeof(UIPlanetDetail), "RefreshDynamicProperties")]
         public static void UIPlanetDetail_RefreshDynamicProperties_Postfix(UIPlanetDetail __instance)
         {
             InfoCreater.StationInfo(__instance);
@@ -234,8 +276,8 @@ namespace DSPAllPlanetInfo
                 int UIheight = DSPGame.globalOption.uiLayoutHeight;
                 int UIwidth = UIheight * Screen.width / Screen.height;
                 //位置とサイズの調整
-                UI.infoWindow.transform.localPosition = new Vector3(260 - UIwidth, 150, 0);
-                UI.rectInfoWindow.sizeDelta = new Vector2(UI.rectInfoWindow.sizeDelta.x, UIheight);
+                UI.infoWindow.transform.localPosition = new Vector3(260 - UIwidth, 250, 0);
+                //UI.rectInfoWindow.sizeDelta = new Vector2(UI.rectInfoWindow.sizeDelta.x, UIheight);
                 UI.previousButton.transform.localPosition = new Vector3(-125, -40, 0);
                 UI.nextButton.transform.localPosition = new Vector3(-125, 40 - UIheight, 0);
 
@@ -249,7 +291,7 @@ namespace DSPAllPlanetInfo
             [HarmonyPostfix]
             public static void Postfix()
             {
-                if (Main.ShowAdditionalInformationWindow.Value)
+                if (Main.ShowAdditionalInformationWindow.Value && UIGame.viewMode != EViewMode.Globe)
                 {
                     if (GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Mini Lab Panel").activeSelf == true)
                     {
