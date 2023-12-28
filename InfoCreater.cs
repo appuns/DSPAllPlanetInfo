@@ -36,7 +36,7 @@ namespace DSPAllPlanetInfo
         //追加の惑星情報を表示
         public static void StationInfo(UIPlanetDetail __instance)
         {
-            if (__instance.planet.loaded || Main.loadedStar.Contains(__instance.planet.star.id)) // __instance.planet.loaded)
+            if (__instance.planet.calculated) // __instance.planet.loaded)
             {
                 //LogManager.Logger.LogInfo("(planetData.star.id : " + __instance.planet.star.id);
                 //LogManager.Logger.LogInfo("(Main.loadedStar.Count : " + Main.loadedStar.Count);

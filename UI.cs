@@ -37,7 +37,7 @@ namespace DSPAllPlanetInfo
 
 
         public static GameObject infoWindow;
-        public static RectTransform rectInfoWindow;
+        //public static RectTransform rectInfoWindow;
 
         //public static GameObject planetdetailwindow;
 
@@ -72,7 +72,7 @@ namespace DSPAllPlanetInfo
 
             infoWindow.GetComponent<RectTransform>().sizeDelta = new Vector2(infoWindow.GetComponent<RectTransform>().sizeDelta.x, UIheight);
 
-            Destroy(infoWindow.transform.Find("res-group/res-entry/icon").GetComponent<UIButton>());
+            Destroy(infoWindow.transform.Find("detail_group/res-group/res-entry/icon").GetComponent<UIButton>());
             Destroy(infoWindow.GetComponent<UIPlanetDetail>());
 
             //LogManager.Logger.LogInfo("情報表示用のウインドウを作成");
@@ -102,6 +102,7 @@ namespace DSPAllPlanetInfo
 
             //ウインドウのタイトル追加
             WindowTitle = Instantiate(infoWindow.transform.Find("type-text").gameObject, infoWindow.transform) as GameObject;
+            Destroy(WindowTitle.transform.Find("tip-btn").gameObject);
             WindowTitle.transform.localPosition = new Vector3(-200, -5, 0);
             WindowTitle.GetComponent<Text>().text = "Interstellar Logistics".Translate();
             WindowTitle.GetComponent<Text>().verticalOverflow = VerticalWrapMode.Overflow;
@@ -119,11 +120,13 @@ namespace DSPAllPlanetInfo
             for (int j = 0; j < 108; j++)
             {
                 infoWindow.transform.Find("bg").gameObject.SetActive(false);
-                infoWindow.transform.Find("res-group").gameObject.SetActive(false);
+                infoWindow.transform.Find("detail_group/res-group").gameObject.SetActive(false);
 
                 //アイテム名
                 ItemProto itemProto = LDB.items.Select(1001);
                 ItemName[j] = Instantiate(infoWindow.transform.Find("type-text").gameObject, infoWindow.transform) as GameObject;
+                Destroy(ItemName[j].transform.Find("tip-btn").gameObject);
+
                 ItemName[j].name = "ItemName " + j;
                 ItemName[j].transform.localPosition = new Vector3(-245, (float)(-60 - j * 20), 0);
                 ItemName[j].GetComponent<RectTransform>().sizeDelta = new Vector2(150, 20);
@@ -132,7 +135,7 @@ namespace DSPAllPlanetInfo
                 ItemName[j].SetActive(false);
 
                 //アイテムアイコン
-                ItemIcon[j] = Instantiate(infoWindow.transform.Find("res-group/res-entry/icon").gameObject, infoWindow.transform) as GameObject;
+                ItemIcon[j] = Instantiate(infoWindow.transform.Find("detail_group/res-group/res-entry/icon").gameObject, infoWindow.transform) as GameObject;
                 ItemIcon[j].name = "ItemIcon " + j;
                 ItemIcon[j].transform.localPosition = new Vector3(-85, (float)(-60 - j * 20), 0);
                 //ItemIcon[j].GetComponent<Image>().sprite = null;
@@ -142,7 +145,7 @@ namespace DSPAllPlanetInfo
 
 
                 //アイテム数
-                ItemCount[j] = Instantiate(infoWindow.transform.Find("res-group/res-entry/value-text").gameObject, infoWindow.transform) as GameObject;
+                ItemCount[j] = Instantiate(infoWindow.transform.Find("detail_group/res-group/res-entry/value-text").gameObject, infoWindow.transform) as GameObject;
                 ItemCount[j].name = "ItemCount " + j;
                 ItemCount[j].transform.localPosition = new Vector3(-35, (float)(-60 - j * 20), 0);
                 ItemCount[j].GetComponent<RectTransform>().sizeDelta = new Vector2(40, 20);
@@ -152,6 +155,7 @@ namespace DSPAllPlanetInfo
 
                 //ロジック情報
                 ItemLogic[j] = Instantiate(infoWindow.transform.Find("type-text").gameObject, infoWindow.transform) as GameObject;
+                Destroy(ItemLogic[j].transform.Find("tip-btn").gameObject);
                 ItemLogic[j].name = "ItemLogic " + j;
                 ItemLogic[j].transform.localPosition = new Vector3(-30, (float)(-60 - j * 20), 0);
                 ItemLogic[j].GetComponent<RectTransform>().sizeDelta = new Vector2(40, 20);
@@ -161,21 +165,23 @@ namespace DSPAllPlanetInfo
 
 
             }
+
             for (int j = 0; j < 50; j++)
             {
-                Line[j] = Instantiate(infoWindow.transform.Find("res-group/line").gameObject, infoWindow.transform) as GameObject;
+                Line[j] = Instantiate(infoWindow.transform.Find("detail_group/res-group/line").gameObject, infoWindow.transform) as GameObject;
+                Destroy(Line[j].transform.Find("display-combo").gameObject);
                 Line[j].SetActive(false);
 
 
             }
             //LogManager.Logger.LogInfo("表示行を作成");
 
-
             //不要なオブジェクトの削除
-            //Destroy(StationWindow.transform.Find("icon").gameObject);
+            Destroy(infoWindow.transform.Find("mask").gameObject);
+            //Destroy(infoWindow.transform.Find("icon").gameObject);
             Destroy(infoWindow.transform.Find("name-input").gameObject);
             Destroy(infoWindow.transform.Find("type-text").gameObject);
-            Destroy(infoWindow.transform.Find("param-group").gameObject);
+            Destroy(infoWindow.transform.Find("detail_group").gameObject);
 
             //ボタンクリックイベントの追加
             previousButtonButton.onClick.AddListener(OnClickPreviousButton);

@@ -29,7 +29,7 @@ using System.Security.Permissions;
 namespace DSPAllPlanetInfo
 {
 
-    [BepInPlugin("Appun.DSP.plugin.AllPlanetInfo", "DSPAllPlanetInfo", "1.1.5")]
+    [BepInPlugin("Appun.DSP.plugin.AllPlanetInfo", "DSPAllPlanetInfo", "1.1.7")]
     [BepInProcess("DSPGAME.exe")]
 
 
@@ -57,7 +57,7 @@ namespace DSPAllPlanetInfo
         public static int fontSize = 20;
         public static int fixedHeight = 30;
 
-        public static List<int> loadedStar = new List<int>();
+        //public static List<int> loadedStar = new List<int>();
 
 
         public static bool needRefresh = false;
@@ -91,11 +91,8 @@ namespace DSPAllPlanetInfo
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
 
             //configの設定
-            RequireUniverseExploration4 = Config.Bind("Tech", "RequireUniverseExplorationLevel4", false, "Require Universe exploration Level 4");
+            //RequireUniverseExploration4 = Config.Bind("Tech", "RequireUniverseExplorationLevel4", false, "Require Universe exploration Level 4");
             ShowAdditionalInformationWindow = Config.Bind("UI", "ShowAdditionalInformationWindow", true, "Show planetary logistics information");
-
-
-
 
             LoadIcon();
             UI.Create();
@@ -157,9 +154,10 @@ namespace DSPAllPlanetInfo
                 else if (GameMain.data.history.techStates[4101].unlocked)
                 {
                     GameMain.history.universeObserveLevel = 1;
+                }else
+                {
+                    GameMain.history.universeObserveLevel = 0;
                 }
-
-
             }
         }
 

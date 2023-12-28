@@ -62,7 +62,7 @@ namespace DSPAllPlanetInfo
                         highStopwatch.Begin();
                         if (planetData.type != EPlanetType.Gas)
                         {
-                            planetAlgorithm.GenerateVeins(false);
+                            planetAlgorithm.GenerateVeins();
                         }
                         num4 = highStopwatch.duration;
                     }
@@ -72,13 +72,13 @@ namespace DSPAllPlanetInfo
                         planetData.landPercentDirty = false;
                     }
 
-                    if (!Main.loadedStar.Contains(planetData.star.id))
-                    {
-                        planetData.loaded = true;
-                        //Main.loadedStar.Add(planetData.star.id);
-                        //LogManager.Logger.LogInfo("(planetData.star.id : " + planetData.star.id);
-                        //LogManager.Logger.LogInfo("(Main.loadedStar.Count : " + Main.loadedStar.Count);
-                    }
+                    //if (!Main.loadedStar.Contains(planetData.star.id))
+                    //{
+                    //    planetData.loaded = true;
+                    //    //Main.loadedStar.Add(planetData.star.id);
+                    //    //LogManager.Logger.LogInfo("(planetData.star.id : " + planetData.star.id);
+                    //    //LogManager.Logger.LogInfo("(Main.loadedStar.Count : " + Main.loadedStar.Count);
+                    //}
 
 
 

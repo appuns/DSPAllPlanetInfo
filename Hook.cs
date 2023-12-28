@@ -30,205 +30,47 @@ namespace DSPAllPlanetInfo
     {
         public static bool MiniLabPanelOn;
 
-
         //フラグのごまかし１
-        [HarmonyPatch(typeof(UIStarDetail), "OnStarDataSet")]
-        class UIStarDetail_OnStarDataSet_Transpiler
-        {
-            [HarmonyTranspiler]
-
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-            {
-                CodeMatcher matcher = new CodeMatcher(instructions);
-                matcher.
-                    MatchForward(true,
-                        new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_magnitude"),
-                        new CodeMatch(OpCodes.Stloc_2),
-                         new CodeMatch(OpCodes.Ldarg_0)).
-                    //new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_star")).
-                    RemoveInstructions(19).
-                    InsertAndAdvance(new CodeInstruction(OpCodes.Ldc_I4_1));
-                return matcher.InstructionEnumeration();
-
-
-                //var codes = new List<CodeInstruction>(instructions);
-                //codes[49].opcode = OpCodes.Ldc_I4_0;
-                //codes[51].opcode = OpCodes.Ldc_I4_0;
-                //codes[53].opcode = OpCodes.Ldc_I4_0;
-                //return codes.AsEnumerable();
-            }
-        }
-
         //フラグのごまかし２
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(UIStarDetail), "OnStarDataSet")]
         [HarmonyPatch(typeof(UIStarDetail), "RefreshDynamicProperties")]
-        class UIStarDetail_RefreshDynamicProperties_Transpiler
-        {
-            [HarmonyTranspiler]
-
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-            {
-                CodeMatcher matcher = new CodeMatcher(instructions);
-                matcher.
-                    MatchForward(true,
-                        new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_magnitude"),
-                        new CodeMatch(OpCodes.Stloc_1),
-                         new CodeMatch(OpCodes.Ldarg_0)).
-                    //new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_star")).
-                    RemoveInstructions(19).
-                    InsertAndAdvance(new CodeInstruction(OpCodes.Ldc_I4_1));
-                return matcher.InstructionEnumeration();
-
-                //var codes = new List<CodeInstruction>(instructions);
-                //codes[24].opcode = OpCodes.Ldc_I4_0;
-                //codes[26].opcode = OpCodes.Ldc_I4_0;
-                //codes[28].opcode = OpCodes.Ldc_I4_0; 
-                //return codes.AsEnumerable();
-
-            }
-        }
-
-        //フラグのごまかし３
         [HarmonyPatch(typeof(UIPlanetDetail), "OnPlanetDataSet")]
-        class UIPlanetDetail_OnStarDataSet_Transpiler
-        {
-            [HarmonyTranspiler]
-
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-            {
-                CodeMatcher matcher = new CodeMatcher(instructions);
-                matcher.
-                    MatchForward(true,
-                        new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_planet"),
-                        new CodeMatch(OpCodes.Brfalse),
-                        new CodeMatch(OpCodes.Ldarg_0)).
-                    RemoveInstructions(15).
-                    InsertAndAdvance(new CodeInstruction(OpCodes.Ldc_I4_1)).
-                    InsertAndAdvance(new CodeInstruction(OpCodes.Stloc_3));
-                return matcher.InstructionEnumeration();
-                //var codes = new List<CodeInstruction>(instructions);
-                //codes[36].opcode = OpCodes.Ldc_I4_0;
-                //return codes.AsEnumerable();
-                //}
-
-            }
-        }
-
-        //フラグのごまかし４
         [HarmonyPatch(typeof(UIPlanetDetail), "RefreshDynamicProperties")]
-        class UIPlanetDetail_RefreshDynamicProperties_Transpiler
+        [HarmonyPatch(typeof(UIStarmap), "OnCursorFunction2Click")]
+        [HarmonyPatch(typeof(UIStarmap), "OnStarClick")]
+
+        public static bool UIStarDetail_Prefix(ref int __state)
         {
-            [HarmonyTranspiler]
-
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-            {
-                CodeMatcher matcher = new CodeMatcher(instructions);
-                matcher.
-                    MatchForward(true,
-                        new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "get_planet"),
-                        new CodeMatch(OpCodes.Brfalse),
-                        new CodeMatch(OpCodes.Ldarg_0)).
-                    RemoveInstructions(15).
-                    InsertAndAdvance(new CodeInstruction(OpCodes.Ldc_I4_1)).
-                    InsertAndAdvance(new CodeInstruction(OpCodes.Stloc_2));
-                return matcher.InstructionEnumeration();
-                //var codes = new List<CodeInstruction>(instructions);
-                //codes[11].opcode = OpCodes.Ldc_I4_0;
-                //return codes.AsEnumerable();
-            }
-        }
-
-        //フラグのごまかし５
-        [HarmonyPostfix, HarmonyPatch(typeof(UIStarmap), "OnCursorFunction2Click")]
-        public static void UIStarmap_OnCursorFunction2Click_Postfix(UIStarmap __instance)
-        {
-            if (__instance.focusStar != null)
-            {
-
-                __instance.SetViewStar(__instance.focusStar.star, true);
-            }
-        }
-
-
-        //フラグのごまかし６
-        [HarmonyPostfix, HarmonyPatch(typeof(UIStarmap), "OnStarClick")]
-        public static void UIStarmap_OnStarClick_Postfix(UIStarmap __instance, UIStarmapStar star)
-        {
-            if (__instance.focusStar == star)
-            {
-
-                __instance.SetViewStar(__instance.focusStar.star, true);
-            }
-        }
-
-        //星系に到着したとき、loadをチェック
-        [HarmonyPrefix, HarmonyPatch(typeof(GameData), "ArriveStar")]
-        public static bool UIStarDetail_ArriveStar_Prefix(GameData __instance, StarData star)
-        {
-            if (star == __instance.localStar)
-            {
-                return false;
-            }
-            if (__instance.localStar != null)
-            {
-                __instance.LeaveStar();
-            }
-            if (star != null)
-            {
-                __instance.localStar = star;
-
-                if (!star.loaded && GameMain.isRunning)
-                {
-                    star.Load();
-                }
-                else if (!Main.loadedStar.Contains(star.id) && star.loaded && GameMain.isRunning)
-                {
-                    Main.loadedStar.Add(star.id);
-                    //LogManager.Logger.LogInfo("(planetData.star.id : " + star.id);
-                    //LogManager.Logger.LogInfo("(Main.loadedStar.Count : " + Main.loadedStar.Count);
-
-
-                    for (int i = 0; i < star.planetCount; i++)
-                    {
-                        PlanetData planetData = star.planets[i];
-                        planetData.loaded = false;
-                    }
-                    star.Load();
-
-                }
-
-
-            }
-
-            return false;
-        }
-
-        //星系情報が作成されていないときは作成
-        [HarmonyPrefix, HarmonyPatch(typeof(UIStarDetail), "OnStarDataSet")]
-        public static bool UIStarDetail_OnStarDataSet_Prefix(UIStarDetail __instance)
-        {
-            if (__instance.star != null)
-            {
-                if (!Main.loadedStar.Contains(__instance.star.id) && !__instance.star.loaded)
-                {
-                    //惑星情報を作成
-                    for (int i = 0; i < __instance.star.planetCount; i++)
-                    {
-                        PlanetData planetData = __instance.star.planets[i];
-                        PlanetCreater.Create(planetData);
-                    }
-                }
-            }
+            __state = GameMain.history.universeObserveLevel;
+            GameMain.history.universeObserveLevel = 4;
             return true;
         }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(UIStarDetail), "OnStarDataSet")]
+        [HarmonyPatch(typeof(UIStarDetail), "RefreshDynamicProperties")]
+        [HarmonyPatch(typeof(UIPlanetDetail), "OnPlanetDataSet")]
+        [HarmonyPatch(typeof(UIPlanetDetail), "RefreshDynamicProperties")]
+        [HarmonyPatch(typeof(UIStarmap), "OnCursorFunction2Click")]
+        [HarmonyPatch(typeof(UIStarmap), "OnStarClick")]
+        public static void UIStarDetail_Postfix(int __state)
+        {
+            GameMain.history.universeObserveLevel = __state;
+
+        }
+
 
         //星系情報が作成されていないときは表示をスキップ
         [HarmonyPrefix, HarmonyPatch(typeof(UIStarDetail), "RefreshDynamicProperties")]
         public static bool UIStarDetail_RefreshDynamicProperties_Prefix(UIStarDetail __instance)
         {
-            if (__instance.star != null)
+            if (__instance.star != null )
             {
-                if (!Main.loadedStar.Contains(__instance.star.id) && !__instance.star.loaded)
+                if (!__instance.star.calculated)
                 {
+                    __instance.loadingTextGo.SetActive(true);
+                    __instance.star.RunCalculateThread();
 
                     return false;
                 }
