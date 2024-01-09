@@ -107,24 +107,17 @@ namespace DSPAllPlanetInfo
 
 
 
-        //オプション変更後の情報ウインドウ位置修正
-        [HarmonyPatch(typeof(UIOptionWindow), "ApplyOptions")]
-        public static class UIOptionWindowa_ApplyOptions_Postfix
-        {
-            [HarmonyPostfix]
-            public static void Postfix(UIOptionWindow __instance)
-            {
-                //UI解像度計算
-                int UIheight = DSPGame.globalOption.uiLayoutHeight;
-                int UIwidth = UIheight * Screen.width / Screen.height;
-                //位置とサイズの調整
-                UI.infoWindow.transform.localPosition = new Vector3(260 - UIwidth, 250, 0);
-                //UI.rectInfoWindow.sizeDelta = new Vector2(UI.rectInfoWindow.sizeDelta.x, UIheight);
-                UI.previousButton.transform.localPosition = new Vector3(-125, -40, 0);
-                UI.nextButton.transform.localPosition = new Vector3(-125, 40 - UIheight, 0);
-
-            }
-        }
+        ////オプション変更後の情報ウインドウ位置修正
+        //[HarmonyPatch(typeof(UIOptionWindow), "ApplyOptions")]
+        //public static class UIOptionWindowa_ApplyOptions_Postfix
+        //{
+        //    [HarmonyPostfix]
+        //    public static void Postfix(UIOptionWindow __instance)
+        //    {
+        //        //位置とサイズの調整
+        //        UI.setWindowPos();
+        //    }
+        //}
 
         //UIplanetwindowのopenと同期
         [HarmonyPatch(typeof(UIPlanetDetail), "_OnOpen")]
@@ -133,11 +126,14 @@ namespace DSPAllPlanetInfo
             [HarmonyPostfix]
             public static void Postfix()
             {
+                //位置とサイズの調整
+                UI.setWindowPos();
+
                 if (Main.ShowAdditionalInformationWindow.Value && UIGame.viewMode != EViewMode.Globe)
                 {
-                    if (GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Mini Lab Panel").activeSelf == true)
+                    if (UIRoot.instance.uiGame.mechaLab.gameObject.activeSelf == true)
                     {
-                        GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Mini Lab Panel").SetActive(false);
+                        UIRoot.instance.uiGame.mechaLab.gameObject.SetActive(false);
                         MiniLabPanelOn = true;
                     }
                     else
@@ -145,11 +141,15 @@ namespace DSPAllPlanetInfo
                         MiniLabPanelOn = false;
                     }
                     //最大行数の設定
-                    UI.infoWindow.SetActive(true);
-                    InfoCreater.lineMax = (DSPGame.globalOption.uiLayoutHeight / 20) - 5;
+                    UI.infoWindow.SetActive(UI.infoWindowEnable);
+                    UI.planetInfoButtonButton.GetComponent<UIButton>().highlighted = UI.infoWindowEnable;
+
+                    InfoCreater.lineMax = (DSPGame.globalOption.uiLayoutHeight / 20) - 8;
                     //LogManager.Logger.LogInfo("lineMax : " + lineMax);
                     //アイコンの変更
-                    UI.infoWindow.transform.Find("icon").GetComponent<Image>().sprite = LDB.techs.Select(1605).iconSprite;
+                    //UI.infoWindow.transform.Find("icon").GetComponent<Image>().sprite = LDB.techs.Select(1605).iconSprite;
+
+                    UIRoot.instance.uiGame.dfMonitor.gameObject.SetActive(!UI.infoWindowEnable);
 
                 }
             }

@@ -83,7 +83,7 @@ namespace DSPAllPlanetInfo
                                 }
 
                                 //ステーション変わったのでラインを表示
-                                UI.Line[stationNo].transform.localPosition = new Vector3(-125, (float)(-70 - lineNo * 20), 0);
+                                UI.Line[stationNo].transform.localPosition = new Vector3(-125, (UI.posY -10 - lineNo * 20), 0);
                                 UI.Line[stationNo].SetActive(true);
                                 //文字列・アイコンは非表示
                                 UI.ItemName[lineNo].SetActive(false);
@@ -151,7 +151,7 @@ namespace DSPAllPlanetInfo
                     else
                     {
                         //最初のライン
-                        UI.Line[0].transform.localPosition = new Vector3(-125, (float)(-70 - lineNo * 20), 0);
+                        UI.Line[0].transform.localPosition = new Vector3(-125, (float)(UI.posY - 10 - lineNo * 20), 0);
                         UI.Line[0].SetActive(true);
                         stationNo++;
                         lineNo++;
@@ -167,7 +167,7 @@ namespace DSPAllPlanetInfo
 
                     }
                     //ステーション変わったのでラインを表示
-                    UI.Line[stationNo].transform.localPosition = new Vector3(-125, (float)(-70 - lineNo * 20), 0);
+                    UI.Line[stationNo].transform.localPosition = new Vector3(-125, (float)(UI.posY - 10 - lineNo * 20), 0);
                     UI.Line[stationNo].SetActive(true);
                     stationNo++;
 

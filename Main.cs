@@ -29,7 +29,7 @@ using System.Security.Permissions;
 namespace DSPAllPlanetInfo
 {
 
-    [BepInPlugin("Appun.DSP.plugin.AllPlanetInfo", "DSPAllPlanetInfo", "1.1.7")]
+    [BepInPlugin("Appun.DSP.plugin.AllPlanetInfo", "DSPAllPlanetInfo", "1.1.10")]
     [BepInProcess("DSPGAME.exe")]
 
 
@@ -50,7 +50,9 @@ namespace DSPAllPlanetInfo
         public static PlanetData prePlanet;
 
         public static int tmpUniverseObserveLevel;
-        private Sprite UseUniverseExploration5Icon;
+        public static Sprite UseUniverseExploration5Icon;
+
+        public static Sprite planetInfoIcon;
 
         Vector2 scrollPosition = Vector2.zero;
 
@@ -115,6 +117,7 @@ namespace DSPAllPlanetInfo
                 else
                 {
                     UseUniverseExploration5Icon = assetBundle.LoadAsset<Sprite>("4105");
+                    planetInfoIcon = assetBundle.LoadAsset<Sprite>("PlanetInfo");
                 }
 
             }

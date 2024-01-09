@@ -1,6 +1,6 @@
 {
   "name": "DSPAllPlanetInfo",
-  "version_number": "1.1.9",
+  "version_number": "1.1.10",
   "website_url": "https://github.com/appuns/DSPAllPlanetInfo",
   "description": "Allows you to view exact resource and interstellar logistics infomation of all planets and star systems. The load has been reduced.This doesn't affect achievements or milestones.　全ての惑星と星系の正確な資源情報、惑星の星間輸送情報を見ることができます。実績やマイルストーンには影響しません。",
   "dependencies": [

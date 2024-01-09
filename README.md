@@ -1,10 +1,11 @@
 # All Planet Info
-Allows you to view exact resource information of all planets and star systems. added planetary logistics infomation.This doesn't affect achievements or milestones.<BR>
-全ての惑星と星系の正確な資源情報を見ることができます。惑星の星間輸送情報を見ることができるようになりました。実績やマイルストーンには影響しません。<BR>
+Allows you to view exact resource information of all planets and star systems ans planetary logistics infomation. Created a button to close the window.This doesn't affect achievements or milestones.<BR>
+全ての惑星と星系の正確な資源情報、惑星の星間輸送情報を見ることができます。ウインドウを閉じるボタンを作りました。実績やマイルストーンには影響しません。<BR>
 <BR>
 ## Features　特徴
 You can view the resource information of all planets and star system regardless of the Universe exploration level or location. <BR>
-the planetary logistics infomation is displayed on the left side. Scroll with the mouse wheel.<BR>
+the planetary logistics infomation is displayed on the left side. <BR>
+There is a button at the top left of the star map that turns the display on and off. <BR>
 There are a option<BR>
 - Show planetary logistics information (ShowAdditionalInformationWindow:default on)<BR>
 
@@ -12,7 +13,8 @@ You can change the settings in the config file.<BR>
 steamapps/common/Dyson Sphere Program/config/Appun.DSP.plugin.AllPlanetInfo.cfg<BR>
 <BR>
 宇宙探査レベルや場所に関係なく、全ての惑星と星系の資源情報を見ることができます。<BR>
-また、星図を開いたときに左側に惑星の星間輸送情報を表示します。マウスホイールでスクロールしてください。<BR>
+また、星図を開いたときに左側に惑星の星間輸送情報を表示します。<BR>
+星図の左上に表示切り替え用のボタンがあります。 <BR>
 オプションがあります。<BR>
 - 星間物流情報を表示するオプション（ShowAdditionalInformationWindow：デフォルトオン）<BR>
 
@@ -30,7 +32,11 @@ If you have any problems or suggestions, please contact DISCORD MSP Modding serv
 不具合、改善案などありましたら、DISCORD「DysonSphereProgram_Jp」サーバー**Appun#8284**までお願いします。<BR>
 <BR>
 ## Change Log　更新履歴
-### v1.1.9
+
+## 1.1.10
+- Supported the game Version 0.10.28.21247. ゲームバージョン0.10.28.21247に対応しています。
+- A button has been added to the top left of star map mode to toggle display/hide.星図モードの左上に表示非表示の切り替え用のボタンを用意しました。
+## v1.1.9
 - Removed unnecessary code.無駄なコードを削除しました。
 ### v1.1.8
 - Supported the game Version 0.10.28.20856. ゲームバージョン0.10.28.20856に対応しました。
