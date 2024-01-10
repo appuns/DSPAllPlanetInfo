@@ -32,7 +32,9 @@ If you have any problems or suggestions, please contact DISCORD MSP Modding serv
 不具合、改善案などありましたら、DISCORD「DysonSphereProgram_Jp」サーバー**Appun#8284**までお願いします。<BR>
 <BR>
 ## Change Log　更新履歴
-
+- Resolved an issue where FogWatch would remain disappearing. FogWatch が消えたままになる問題を解決しました。
+## 1.1.10
+- A button has been added to the top left of star map mode to toggle display/hide.星図モードの左上に表示非表示の切り替え用のボタンを用意しました。
 ## 1.1.10
 - Supported the game Version 0.10.28.21247. ゲームバージョン0.10.28.21247に対応しています。
 - A button has been added to the top left of star map mode to toggle display/hide.星図モードの左上に表示非表示の切り替え用のボタンを用意しました。

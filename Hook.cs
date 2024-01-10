@@ -167,6 +167,7 @@ namespace DSPAllPlanetInfo
                 {
                     GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Mini Lab Panel").SetActive(true);
                 }
+                UIRoot.instance.uiGame.dfMonitor.gameObject.SetActive(true);
             }
         }
 
